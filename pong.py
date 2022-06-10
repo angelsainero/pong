@@ -31,6 +31,7 @@ class Pong:
         print("Construyendo un objeto pong")
         pygame.init()
         self.pantalla = pygame.display.set_mode((self._ANCHO, self._ALTO))
+        
 
         self.jugador1 = Paleta(
             self._MARGEN_LATERAL,               # coordenada x (left)
@@ -49,7 +50,9 @@ class Pong:
         while True:
             pygame.draw.rect(self.pantalla, (255, 255, 255), self.jugador1)
             pygame.draw.rect(self.pantalla, (255, 255, 255), self.jugador2)
+            pygame.draw.line(self.pantalla,(255,255,255),(self._ANCHO/2,0),(self._ANCHO/2, self._ALTO), 2)
             pygame.display.flip()
+            
 
 if __name__ == "__main__":
     juego = Pong()
