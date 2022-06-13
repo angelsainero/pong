@@ -47,12 +47,20 @@ class Pong:
 
     def bucle_principal(self):
         print("Estoy en el bucle principal")
-        while True:
+        while True: #tecla para interrumpir juego y para que el programa no se cuelgue, habilitamos eventos
+
+            for evento in pygame.event.get():
+                if evento.type == pygame.KEYDOWN:
+                    if evento.key == pygame.K_ESCAPE:
+                        return #con el return se sale del bucle
+                if evento.type == pygame.QUIT:
+                    return
+         
             pygame.draw.rect(self.pantalla, (255, 255, 255), self.jugador1)
             pygame.draw.rect(self.pantalla, (255, 255, 255), self.jugador2)
             pygame.draw.line(self.pantalla,(255,255,255),(self._ANCHO/2,0),(self._ANCHO/2, self._ALTO), 2)
             pygame.display.flip()
-            
+
 
 if __name__ == "__main__":
     juego = Pong()
