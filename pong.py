@@ -51,15 +51,16 @@ class Pong:
 
             for evento in pygame.event.get():
                 if evento.type == pygame.KEYDOWN:
-                    if evento.key == pygame.K_ESCAPE:
+                    if evento.key == pygame.K_ESCAPE: #tecla escape
                         return #con el return se sale del bucle
-                if evento.type == pygame.QUIT:
+                if evento.type == pygame.QUIT: #boton quit (X)
                     return
-            cont= 0 
-            for posicion in range(0, self._ALTO, 20):
-                color = (255,255,255)
-                pygame.draw.line(self.pantalla,(255,255,255),(self._ANCHO/2,posicion),(self._ANCHO/2, posicion + 10), 2)
-            # pygame.draw.line(self.pantalla,(255,255,255),(self._ANCHO/2,0),(self._ANCHO/2, self._ALTO), 2)
+            
+            # for posicion in range(0, self._ALTO, 20):   Esto sería para hacerla discontinua
+            #     color = (255,255,255)
+            #     pygame.draw.line(self.pantalla,(255,255,255),(self._ANCHO/2,posicion),(self._ANCHO/2, posicion + 10), 2)
+
+            pygame.draw.line(self.pantalla,(255,255,255),(self._ANCHO/2,0),(self._ANCHO/2, self._ALTO), 2)
             pygame.draw.rect(self.pantalla, (255, 255, 255), self.jugador1)
             pygame.draw.rect(self.pantalla, (255, 255, 255), self.jugador2)
             pygame.display.flip()
