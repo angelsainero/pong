@@ -1,6 +1,10 @@
 import pygame
 import time
 
+ALTO_PALETA = 40
+ANCHO_PALETA = 5
+
+
 """
   - algo de herencia:
 
@@ -14,8 +18,28 @@ import time
 """
 
 class Paleta(pygame.Rect):
-    pass
 
+    ARRIBA = True
+    ABAJO = False
+
+    def __init__(self, x, y):
+        super(Paleta, self).__init__(x, y, ANCHO_PALETA, ALTO_PALETA)
+        self.velocidad = 5
+
+    def muevete(self, direccion):
+        if direccion == self.ARRIBA:
+            print("Muevete hacia arriba")
+        else:
+            print("Muevete hacia abajo")
+
+            
+'''
+el movimiento es cosa de la paleta
+aumentar o disminuir el valor del eje y (posición de la paleta)
+quien tiene que capturar el evento es el bucle principal 
+
+
+'''
 
 class Pong:
 
@@ -35,30 +59,33 @@ class Pong:
 
         self.jugador1 = Paleta(
             self._MARGEN_LATERAL,               # coordenada x (left)
-            (self._ALTO-self._ALTO_PALETA)/2,   # coordenada y (top)
-            self._ANCHO_PALETA,                 # ancho (width)
-            self._ALTO_PALETA)                  # alto (height)
-
+            (self._ALTO-ALTO_PALETA)/2  # coordenada y (top)
+        )    
         self.jugador2 = Paleta(
             self._ANCHO-self._MARGEN_LATERAL-self._ANCHO_PALETA,
-            (self._ALTO-self._ALTO_PALETA)/2,
-            self._ANCHO_PALETA,
-            self._ALTO_PALETA)
+            (self._ALTO-ALTO_PALETA)/2
+        )
 
     def bucle_principal(self):
         print("Estoy en el bucle principal")
-        while True: #tecla para interrumpir juego y para que el programa no se cuelgue, habilitamos eventos
-
+        salir = False
+        while not salir:
             for evento in pygame.event.get():
                 if evento.type == pygame.KEYDOWN:
-                    if evento.key == pygame.K_ESCAPE: #tecla escape
-                        return #con el return se sale del bucle
-                if evento.type == pygame.QUIT: #boton quit (X)
-                    return
-            
-            # for posicion in range(0, self._ALTO, 20):   Esto sería para hacerla discontinua
-            #     color = (255,255,255)
-            #     pygame.draw.line(self.pantalla,(255,255,255),(self._ANCHO/2,posicion),(self._ANCHO/2, posicion + 10), 2)
+                    if evento.key == pygame.K_ESCAPE:
+                        print("Adiós, te has escapado")
+                        salir = True
+                    elif evento.key == pygame.K_a:
+                        self.jugador1.muevete(Paleta.ARRIBA)
+                    elif evento.key == pygame.K_z:
+                        self.jugador1.muevete(Paleta.ABAJO)
+                    elif evento.key == pygame.K_UP:
+                        self.jugador2.muevete(Paleta.ARRIBA)
+                    elif evento.key == pygame.K_DOWN:
+                        self.jugador2.muevete(Paleta.ABAJO)
+
+                if evento.type == pygame.QUIT:
+                    salir = True
 
             pygame.draw.line(self.pantalla,(255,255,255),(self._ANCHO/2,0),(self._ANCHO/2, self._ALTO), 2)
             pygame.draw.rect(self.pantalla, (255, 255, 255), self.jugador1)
