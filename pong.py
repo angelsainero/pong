@@ -55,7 +55,7 @@ class Pelota(pygame.Rect):
     def muevete(self):
         self.y = self.y + self.velocidad_y
         self.x = self.x + self.velocidad_x
-
+ 
 """
 el movimiento es cosa de la paleta
     aumentar o disminuir el valor del eje y (posición de la paleta)
