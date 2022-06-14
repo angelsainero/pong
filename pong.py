@@ -53,9 +53,15 @@ class Pelota(pygame.Rect):
         self.velocidad_y = randint(-5, 5)
 
     def muevete(self):
-        self.y = self.y + self.velocidad_y
         self.x = self.x + self.velocidad_x
- 
+        self.y = self.y + self.velocidad_y
+        if self.y < 0:
+            self.y = 0
+            self.velocidad_y = -self.velocidad_y
+        if self.y > ALTO-TAMANYO_PELOTA:
+            self.y = ALTO-TAMANYO_PELOTA
+            self.velocidad_y = -self.velocidad_y
+
 """
 el movimiento es cosa de la paleta
     aumentar o disminuir el valor del eje y (posición de la paleta)
@@ -113,5 +119,7 @@ class Pong:
             self.clock.tick(60)
 
 if __name__ == "__main__":
+    juego = Pong()
+    juego.bucle_principal()
     juego = Pong()
     juego.bucle_principal()
