@@ -5,12 +5,19 @@ import pygame
 
 ALTO_PALETA = 40
 ANCHO_PALETA = 5
+VELOCIDAD_PALA = 5
 
 ANCHO = 640
 ALTO = 480
 MARGEN_LATERAL = 40
 
 TAMANYO_PELOTA = 6
+VEL_MAX_PELOTA = 5
+
+C_NEGRO = (0, 0, 0)
+C_BLANCO = (255, 255, 255)
+
+FPS = 30
 
 """
   - algo de herencia:
@@ -31,7 +38,7 @@ class Paleta(pygame.Rect):
 
     def __init__(self, x, y):
         super(Paleta, self).__init__(x, y, ANCHO_PALETA, ALTO_PALETA)
-        self.velocidad = 5
+        self.velocidad = VELOCIDAD_PALA
 
     def muevete(self, direccion):
         if direccion == self.ARRIBA:
@@ -49,8 +56,8 @@ class Pelota(pygame.Rect):
             (ANCHO-TAMANYO_PELOTA)/2, (ALTO-TAMANYO_PELOTA)/2,
             TAMANYO_PELOTA, TAMANYO_PELOTA
         )
-        self.velocidad_x = randint(-5, 5)
-        self.velocidad_y = randint(-5, 5)
+        self.velocidad_x = randint(-VEL_MAX_PELOTA, VEL_MAX_PELOTA)
+        self.velocidad_y = randint(-VEL_MAX_PELOTA, VEL_MAX_PELOTA)
 
     def muevete(self):
         self.x = self.x + self.velocidad_x
@@ -111,15 +118,15 @@ class Pong:
 
             self.colision_paletas()
 
-            self.pantalla.fill((0, 0, 0))
-            pygame.draw.line(self.pantalla, (255, 255, 255), (ANCHO/2, 0), (ANCHO/2, ALTO))
-            pygame.draw.rect(self.pantalla, (255, 255, 255), self.jugador1)
-            pygame.draw.rect(self.pantalla, (255, 255, 255), self.jugador2)
-            pygame.draw.rect(self.pantalla, (255, 255, 255), self.pelota)
+            self.pantalla.fill(C_NEGRO)
+            pygame.draw.line(self.pantalla, C_BLANCO, (ANCHO/2, 0), (ANCHO/2, ALTO))
+            pygame.draw.rect(self.pantalla, C_BLANCO, self.jugador1)
+            pygame.draw.rect(self.pantalla, C_BLANCO, self.jugador2)
+            pygame.draw.rect(self.pantalla, C_BLANCO, self.pelota)
 
             # refresco de pantalla
             pygame.display.flip()
-            self.clock.tick(20)
+            self.clock.tick(FPS)
 
     def colision_paletas(self):
         """
@@ -129,8 +136,8 @@ class Pong:
         # if self.pelota.colliderect(self.jugador1) or self.pelota.colliderect(self.jugador2):
         # if self.jugador1.colliderect(self.pelota) or self.pelota.colliderect(self.jugador2):
         if pygame.Rect.colliderect(self.pelota, self.jugador1) or pygame.Rect.colliderect(self.pelota, self.jugador2):
-            self.pelota.velocidad_x = -self.pelota.velocidad_x + randint(-3, 3)
-            self.pelota.velocidad_y = randint(-5, 5)
+            self.pelota.velocidad_x = -self.pelota.velocidad_x
+            self.pelota.velocidad_y = randint(-VEL_MAX_PELOTA, VEL_MAX_PELOTA)
 
 
 
