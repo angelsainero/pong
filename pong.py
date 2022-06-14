@@ -56,7 +56,16 @@ class Pelota(pygame.Rect):
             (ANCHO-TAMANYO_PELOTA)/2, (ALTO-TAMANYO_PELOTA)/2,
             TAMANYO_PELOTA, TAMANYO_PELOTA
         )
-        self.velocidad_x = randint(-VEL_MAX_PELOTA, VEL_MAX_PELOTA)
+
+        # velocidad_x_valor_valido = False
+        # while not velocidad_x_valor_valido:
+        #     self.velocidad_x = randint(-VEL_MAX_PELOTA, VEL_MAX_PELOTA)
+        #     velocidad_x_valor_valido = self.velocidad_x != 0
+
+        self.velocidad_x = 0
+        while self.velocidad_x == 0:
+            self.velocidad_x = randint(-VEL_MAX_PELOTA, VEL_MAX_PELOTA)
+
         self.velocidad_y = randint(-VEL_MAX_PELOTA, VEL_MAX_PELOTA)
 
     def muevete(self):
