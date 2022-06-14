@@ -78,6 +78,22 @@ class Pelota(pygame.Rect):
             self.y = ALTO-TAMANYO_PELOTA
             self.velocidad_y = -self.velocidad_y
 
+    def comprobar_punto(self):
+        if self.x < 0:
+            self.velocidad_x = randint(-VEL_MAX_PELOTA, -1)
+            self.x = (ANCHO - TAMANYO_PELOTA)/2
+            self.y = (ALTO - TAMANYO_PELOTA)/2
+            self.velocidad_y = randint(-VEL_MAX_PELOTA, VEL_MAX_PELOTA)
+            print("Punto para el jugador 2")
+        elif self.x > ANCHO:
+            self.velocidad_x = randint(1, VEL_MAX_PELOTA)
+            self.x = (ANCHO - TAMANYO_PELOTA)/2
+            self.y = (ALTO - TAMANYO_PELOTA)/2
+            self.velocidad_y = randint(-VEL_MAX_PELOTA, VEL_MAX_PELOTA)
+            print("Punto para el jugador 1")
+
+
+
 """
 el movimiento es cosa de la paleta
     aumentar o disminuir el valor del eje y (posición de la paleta)
@@ -126,6 +142,8 @@ class Pong:
             self.pelota.muevete()
 
             self.colision_paletas()
+
+            self.pelota.comprobar_punto()
 
             self.pantalla.fill(C_NEGRO)
             pygame.draw.line(self.pantalla, C_BLANCO, (ANCHO/2, 0), (ANCHO/2, ALTO))
