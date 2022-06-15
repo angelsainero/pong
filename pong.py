@@ -163,15 +163,15 @@ class Pong:
             self.pelota.velocidad_y = randint(-VEL_MAX_PELOTA, VEL_MAX_PELOTA)
 
     def comprobar_punto(self):
-        if self.pelota.x < 0:
+        if self.pelota.x < 0:  #la pelota sale por la izq
             self.marcador.valor[1] = self.marcador.valor[1] + 1
             print(f"El nuevo marcador es {self.marcador.valor}")
-            self.pelota.velocidad_x = randint(-VEL_MAX_PELOTA, -1)
+            self.pelota.velocidad_x = randint(-VEL_MAX_PELOTA, -1)  #reinicia pelota hacia la izq
             self.iniciar_punto()
-        elif self.pelota.x > ANCHO:
-            self.marcador.valor[0] = self.marcador.valor[0] + 1
-            print(f"El nuevo marcador es {self.marcador.valor}")
-            self.pelota.velocidad_x = randint(1, VEL_MAX_PELOTA)
+        elif self.pelota.x > ANCHO: #si la pelota se sale por la derecha
+            self.marcador.valor[0] = self.marcador.valor[0] + 1 
+            print(f"El nuevo marcador es {self.marcador.valor}") 
+            self.pelota.velocidad_x = randint(1, VEL_MAX_PELOTA) #reinicia pelota hacia la derecha
             self.iniciar_punto()
 
     def iniciar_punto(self):
