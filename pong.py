@@ -76,19 +76,25 @@ class Marcador:
     - ¿dónde?  ------
     - ¿cómo?   ------
     - ¿cuándo? cuando la pelota sale del campo
+
+
+    letra_marcador
+
     """
 
     def __init__(self):
+        self.letra_marcador = pygame.font.SysFont('roboto', 100)
+        self.letra_mensaje = pygame.font.SysFont('roboto', 40)
         self.inicializar()
 
     def comprobar_ganador(self):
         if self.partida_finalizada:
             return True
         if self.valor[0] == PUNTOS_PARTIDA:
-            print("Ha ganado el jugador 1")
+            self.mensaje_ganador = "Ha ganado el jugador 1"
             self.partida_finalizada = True
         elif self.valor[1] == PUNTOS_PARTIDA:
-            print("Ha ganado el jugador 2")
+            self.mensaje_ganador = "Ha ganado el jugador 2"
             self.partida_finalizada = True
         return self.partida_finalizada
 
@@ -96,12 +102,33 @@ class Marcador:
         self.valor = [0, 0]
         self.partida_finalizada = False
 
+    def pintar(self, pantalla):
+        texto = pygame.font.Font.render(self.letra_marcador, str(self.valor[0]), False, C_BLANCO)
+        pos_x =  (ANCHO/2 - MARGEN_LATERAL - ANCHO_PALETA)/2 - texto.get_width()/2 + MARGEN_LATERAL + ANCHO_PALETA
+        pos_y =  MARGEN_LATERAL
+        pygame.Surface.blit(pantalla, texto, (pos_x, pos_y))
+
+        texto = pygame.font.Font.render(self.letra_marcador, str(self.valor[1]), False, C_BLANCO)
+        pos_x =  (ANCHO/2 - MARGEN_LATERAL - ANCHO_PALETA)/2 - texto.get_width()/2 + ANCHO/2
+        pos_y =  MARGEN_LATERAL
+        pygame.Surface.blit(pantalla, texto, (pos_x, pos_y))
+
+        if self.partida_finalizada:
+            texto = pygame.font.Font.render(self.letra_mensaje, self.mensaje_ganador, False, C_BLANCO)
+            pos_x =  ANCHO/2 - texto.get_width()/2
+            pos_y =  ALTO/2 - texto.get_height()/2 - MARGEN_LATERAL
+            pygame.Surface.blit(pantalla, texto, (pos_x, pos_y))
+
+
 class Pong:
 
     def __init__(self):
         pygame.init()
         self.pantalla = pygame.display.set_mode((ANCHO, ALTO))
         self.clock = pygame.time.Clock()
+
+        # Vamos a prepararnos para pintar texto
+        pygame.font.init()
 
         self.jugador1 = Paleta(
             MARGEN_LATERAL,               # coordenada x (left)
@@ -148,6 +175,7 @@ class Pong:
             pygame.draw.rect(self.pantalla, C_BLANCO, self.jugador1)
             pygame.draw.rect(self.pantalla, C_BLANCO, self.jugador2)
             pygame.draw.rect(self.pantalla, C_BLANCO, self.pelota)
+            self.marcador.pintar(self.pantalla)
 
             # refresco de pantalla
             pygame.display.flip()
@@ -163,15 +191,15 @@ class Pong:
             self.pelota.velocidad_y = randint(-VEL_MAX_PELOTA, VEL_MAX_PELOTA)
 
     def comprobar_punto(self):
-        if self.pelota.x < 0:  #la pelota sale por la izq
+        if self.pelota.x < 0:
             self.marcador.valor[1] = self.marcador.valor[1] + 1
             print(f"El nuevo marcador es {self.marcador.valor}")
-            self.pelota.velocidad_x = randint(-VEL_MAX_PELOTA, -1)  #reinicia pelota hacia la izq
+            self.pelota.velocidad_x = randint(-VEL_MAX_PELOTA, -1)
             self.iniciar_punto()
-        elif self.pelota.x > ANCHO: #si la pelota se sale por la derecha
-            self.marcador.valor[0] = self.marcador.valor[0] + 1 
-            print(f"El nuevo marcador es {self.marcador.valor}") 
-            self.pelota.velocidad_x = randint(1, VEL_MAX_PELOTA) #reinicia pelota hacia la derecha
+        elif self.pelota.x > ANCHO:
+            self.marcador.valor[0] = self.marcador.valor[0] + 1
+            print(f"El nuevo marcador es {self.marcador.valor}")
+            self.pelota.velocidad_x = randint(1, VEL_MAX_PELOTA)
             self.iniciar_punto()
 
     def iniciar_punto(self):
